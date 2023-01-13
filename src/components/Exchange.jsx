@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import error from "./assets/error.svg";
 import "./Exchange.css";
 import {
   bch,
@@ -16,6 +18,7 @@ import {
   search,
 } from "./assets";
 import "./Exchange.css";
+import { Navigate, redirect, useNavigate } from "react-router";
 
 function App() {
   const options = [
@@ -97,49 +100,77 @@ function App() {
     return options.filter((i) => i.fullName === e.target.innerText);
   };
 
-  const [value, setValue] = useState("Bitcoin");
-  const [firstIcon, setFirstIcon] = useState(options[0].icon);
-  const [isActiveFirst, setIsActiveFirst] = useState(false);
-  const [secondValue, setSecondValue] = useState("Ethereum");
-  const [price, setPrice] = useState(18349.21133);
-  const [secondPrice, setSecondPrice] = useState(1405.43482);
-  const [errors, setErrors] = useState(0);
-  const [promo, setPromo] = useState("");
-  const [secondIcon, setSecondIcon] = useState(options[1].icon);
-  const [isActiveSecond, setIsActiveSecond] = useState(false);
-  const [exchangeAmount, setExchangeAmount] = useState(0);
-  const [email, setEmail] = useState("");
-  const [adress, setAdress] = useState("");
+  const history = useNavigate();
 
-  const validateInput = () => {
-    if (
-      value &&
-      secondValue &&
-      price &&
-      secondPrice &&
-      exchangeAmount &&
-      adress &&
-      email
-    ) {
-      console.log({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => {
+    const date = new Date();
+    localStorage.setItem(
+      "Order",
+      JSON.stringify({
+        ...data,
         value,
         secondValue,
         price,
         secondPrice,
         exchangeAmount,
-        adress,
-        email,
-      });
-    }
+        date,
+      })
+    );
+    history("/orders");
   };
 
+  const [value, setValue] = useState("Bitcoin");
+  const [firstIcon, setFirstIcon] = useState(options[0].icon);
+  const [isActiveFirst, setIsActiveFirst] = useState(false);
+  const [exchangeAmount, setExchangeAmount] = useState(0);
+  const [secondValue, setSecondValue] = useState("Ethereum");
+  const [price, setPrice] = useState(18349.21133);
+  const [MinValue, setMinValue] = useState(1);
+  const [secondPrice, setSecondPrice] = useState(1405.43482);
+  const [secondIcon, setSecondIcon] = useState(options[1].icon);
+  const [isActiveSecond, setIsActiveSecond] = useState(false);
+
+  // const validateInput = () => {
+  //   if (
+  //     value &&
+  //     secondValue &&
+  //     price &&
+  //     secondPrice &&
+  //     exchangeAmount &&
+  //     adress &&
+  //     email
+  //   ) {
+  //     localStorage.setItem(
+  //       "Order",
+  //       JSON.stringify({
+  //         value,
+  //         secondValue,
+  //         price,
+  //         secondPrice,
+  //         exchangeAmount,
+  //         adress,
+  //         email,
+  //       })
+  //     );
+  //   }
+  // };
+
   return (
-    <div className="container font-poppins pt-[50px] mb-[100px]" id="exchange">
+    <div
+      className="container font-poppins pt-[50px] sm:mb-[30px]"
+      id="exchange"
+    >
       <div className="exchange-panel">
         <h1 className="sell__title text-white text-[30px]">
           Sell {value} for {secondValue}
         </h1>
-        <div className="flex__box">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex__box">
           <div className="relative container__select">
             <div className="full-width">
               <div
@@ -172,6 +203,13 @@ function App() {
                       const price = findPrice(e);
                       setFirstIcon(price[0].icon);
                       setPrice(price[0].price);
+                      setMinValue((prev) => {
+                        if (price[0].price * exchangeAmount < 50) {
+                          return 50;
+                        } else {
+                          return 0;
+                        }
+                      });
                     }}
                     className="pointer selection__item"
                   >
@@ -222,6 +260,14 @@ function App() {
                 ))}
             </div>
           </div>
+          {/* as;doisad;sa;dnas 
+          sadads
+          asdasd
+          sa
+          dsa
+          d
+          asd
+          a*/}
           <div className="first__exchange">
             <label
               htmlFor="input__exchange1"
@@ -231,14 +277,34 @@ function App() {
             </label>
             <input
               type="text"
-              onChange={(e) => {
-                setExchangeAmount(e.target.value);
-                validateInput(e.target.value);
-              }}
+              {...register("Amount", {
+                required: "The field is required",
+                min: {
+                  value: MinValue,
+                  message: "Minimal amount not reached",
+                },
+                pattern: {
+                  value: /^[0-9]*\.?[0-9]*$/i,
+                  message: "Invalid number",
+                },
+                onChange: (e) => setExchangeAmount(e.target.value),
+              })}
               className="exchange__input"
               id="input__exchange1"
               placeholder="12.213"
             />
+            {errors.Amount ? (
+              <div className="error-div">
+                <span className="flex items-center gap-[7px]">
+                  <img src={error} alt="error" />
+                  {errors?.Amount && (
+                    <p>{errors?.Amount?.message || "Error"}</p>
+                  )}
+                </span>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
           <div className="first__exchange">
             <label
@@ -247,17 +313,15 @@ function App() {
             >
               You Get
             </label>
-            <input
-              value={
-                Math.ceil(
-                  ((exchangeAmount * price * 1.08) / secondPrice) * 1000000
-                ) / 1000000
-              }
+            <h4
               id="input__exchange2"
               type="text"
-              className="exchange__input"
+              className="exchange__input read-only"
               placeholder="12.213"
-            />
+            >
+              {Math.ceil(((exchangeAmount * price) / secondPrice) * 1000000) /
+                1000000}
+            </h4>
           </div>
           <div className="first__exchange">
             <label
@@ -267,14 +331,32 @@ function App() {
               Your Email
             </label>
             <input
-              placeholder="exchange@gmail.com"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              type="text"
+              {...register("Email", {
+                required: "The field is required",
+                minLength: {
+                  value: 4,
+                  message: "Email is not long enough",
+                },
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email address",
+                },
+              })}
               className="exchange__input"
-              id="input__exchange3"
+              id="input__exchange1"
+              placeholder="hoobank@support.com"
             />
+            {errors.Email ? (
+              <div className="error-div">
+                <span className="flex items-center gap-[7px]">
+                  <img src={error} alt="error" />
+                  {errors?.Email && <p>{errors?.Email?.message || "Error"}</p>}
+                </span>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
           <div className="first__exchange">
             <label
@@ -284,11 +366,35 @@ function App() {
               Enter {secondValue} Adress
             </label>
             <input
-              value={adress}
-              onChange={(e) => setAdress(e.target.value)}
+              type="text"
+              {...register("Adress", {
+                required: "The field is required",
+                pattern: {
+                  value:
+                    /^0x[A-Za-z0-9]+$|bc[A-Za-z0-9]+$|eth[A-Za-z0-9]+$|bnb[A-Za-z0-9]+$|zec[A-Za-z0-9]+$|bch[A-Za-z0-9]+$|zec[A-Za-z0-9]+$|etc[A-Za-z0-9]+$|TR[A-Za-z0-9]+$/i,
+                  message: "Invalid adress",
+                },
+                minLength: {
+                  value: 15,
+                  message: "Invalid adress",
+                },
+              })}
               className="exchange__input"
-              id="input__exchange4"
+              id="input__exchange1"
+              placeholder="0xdB055877e6c13b6A6B25aBcAA29B393777dD0a73"
             />
+            {errors.Adress ? (
+              <div className="error-div">
+                <span className="flex items-center gap-[7px]">
+                  <img src={error} alt="error" />
+                  {errors?.Adress && (
+                    <p>{errors?.Adress?.message || "Error"}</p>
+                  )}
+                </span>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
           <div className="first__exchange">
             <label
@@ -299,17 +405,36 @@ function App() {
             </label>
             <input
               placeholder={`A43JSM12`}
-              value={promo}
-              onChange={(e) => setPromo(e.target.value)}
+              // value={promo}
+              {...register("Promocode", {
+                maxLength: {
+                  value: 6,
+                  message: "Promocode is not valid",
+                },
+                minLength: {
+                  value: 6,
+                  message: "Promocode is not valid",
+                },
+              })}
+              // onChange={(e) => setPromo(e.target.value)}
               className="exchange__input"
               id="input__exchange5"
             />
+            {errors.Promocode ? (
+              <div className="error-div">
+                <span className="flex items-center gap-[7px]">
+                  <img src={error} alt="error" />
+                  {errors?.Promocode && (
+                    <p>{errors?.Promocode?.message || "Error"}</p>
+                  )}
+                </span>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
           <div className="submit__shelf">
-            <button
-              className="submit__btn pointer"
-              onClick={() => validateInput()}
-            >
+            <button className="submit__btn pointer relative z-8">
               Proceed to payment
             </button>
             <span className="span__rules">
@@ -319,7 +444,7 @@ function App() {
               </a>
             </span>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

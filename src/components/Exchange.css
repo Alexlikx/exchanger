@@ -29,6 +29,18 @@ body {
   width: 100.4%;
 }
 
+.read-only {
+  height: 100%;
+}
+
+.error-div {
+  position: absolute;
+  bottom: -28px;
+  z-index: 9;
+  color: rgb(134, 0, 0);
+  font-weight: 500;
+
+}
 
 .select__box {
   padding: 10px;
@@ -86,7 +98,7 @@ body {
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
-  gap: 20px 30px;
+  gap: 35px 30px;
   grid-template-rows: 1fr 1fr 1fr 1fr;
   position: relative;
 }
