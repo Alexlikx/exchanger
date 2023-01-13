@@ -74,6 +74,21 @@ body {
   scrollbar-width: thin;
 }
 
+.icon {
+  animation: animation .7s linear infinite;
+}
+
+@keyframes animation {
+  0% {
+    rotate: 0deg;
+    scale: 0.8;
+  }
+  100% {
+    rotate: 360deg;
+    scale: 1;
+  }
+}
+
 .selection__item {
   padding: 20px 24px;
   display: flex;

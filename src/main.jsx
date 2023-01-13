@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
 import { Exchange, Footer, Navbar } from "./components";
+import Orders from "./components/Orders";
 import Rules from "./components/Rules";
 import "./index.css";
 import styles from "./style";
@@ -20,6 +21,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/" element={<App />} />
           <Route path="/payment" element={<Exchange />} />
           <Route path="/rules" element={<Rules />} />
+          <Route path="/orders" element={<Orders />} />
         </Routes>
         <div className={`bg-primary ${styles.paddingX} ${styles.flexCenter}`}>
           <div className={`${styles.boxWidth}`}>

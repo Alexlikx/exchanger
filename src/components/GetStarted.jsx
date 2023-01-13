@@ -8,7 +8,7 @@ const GetStarted = () => (
     initial={{ scale: 0 }}
     animate={{ scale: 1 }}
     href="#exchange"
-    transition={{ duration: 0.4, delay: 0.9 }}
+    transition={{ duration: 0.4, delay: 0.4 }}
   >
     <div
       className={`${styles.flexCenter} flex-col bg-primary w-[100%] h-[100%] rounded-full`}

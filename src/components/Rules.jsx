@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../style";
 
 const Rules = () => {
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 50);
+  }, [0]);
+
   return (
     <div
       className={`bg-primary ${styles.paddingX} ${styles.flexCenter} mt-[70px] font-poppins`}
     >
       <div className={`${styles.boxWidth}`}>
-        <h1 className="text-white text-[64px] font-medium font-poppins gradient">
+        <h1 className="text-white sm:text-[64px] text-[34px] font-medium font-poppins gradient">
           Service rules
         </h1>
-        <h2 className="text-white text-[40px] font-medium font-poppins mt-[40px] gradient">
+        <h2 className="text-white sm:text-[40px] text-[24px] font-medium font-poppins mt-[40px] gradient">
           Purpose and scope
           <br /> Rules of Service
         </h2>
