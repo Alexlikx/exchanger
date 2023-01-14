@@ -287,14 +287,17 @@ function App() {
                 },
                 onChange: (e) => {
                   setExchangeAmount(e.target.value);
-                  const findPrice = options.filter((i) => i.fullName !== value);
-                  setMinValue: (prev) => {
+                  setMinValue((prev) => {
+                    const findPrice = options.filter(
+                      (i) => i.fullName !== value
+                    );
+
                     if (findPrice[0].price * exchangeAmount < 50) {
                       return 50;
                     } else {
                       return 0;
                     }
-                  };
+                  });
                 },
               })}
               className="exchange__input"
