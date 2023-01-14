@@ -173,7 +173,7 @@ const Orders = () => {
           <img src={loading} alt="" width={100} height={100} className="icon" />
         ) : Orders && minutes >= 0 ? (
           <div className="w-full background-white relative">
-            <div className="absolute top-[45%] left-[50%] translate-x-[-50%] l:top-[30%] ">
+            <div className="absolute top-[40%] left-[50%] translate-x-[-50%] l:top-[30%] ssss">
               <div className="w-[100px] h-[100px] rounded-full relative flex justify-center items-center">
                 <img
                   src={loadingTimer}
@@ -307,6 +307,7 @@ const Orders = () => {
                     className={`second-step flex mt-[20px] gap-[20px] ${
                       isPaid ? "active" : "not__active"
                     }`}
+                    id="part2"
                   >
                     <p
                       className={` p-[15px] bg-black-gradient inline-block text-[20px] rounded-md font-semibold `}
@@ -413,7 +414,15 @@ const Orders = () => {
                     </p>
                     <button
                       className="text-black border-spacing-0 px-[18px] py-[8px] bg-blue-gradient rounded-full mt-[30px]"
-                      onClick={() => setIsPaid(true)}
+                      onClick={() => {
+                        setIsPaid(true);
+                        const elem = document.querySelector("#part2");
+                        elem.scrollIntoView({
+                          behavior: "auto",
+                          block: "center",
+                          inline: "center",
+                        });
+                      }}
                     >
                       I paid
                     </button>
