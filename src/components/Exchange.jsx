@@ -27,74 +27,92 @@ function App() {
       fullName: "Bitcoin",
       indexName: "BTC",
       icon: btc,
+      adress: "0xdB055877e6c13b6A6B25aBcAA29B393777dD0a73",
     },
     {
       price: 1405.43482,
       fullName: "Ethereum",
       indexName: "ETH",
       icon: eth,
+      adress: "0xdB055877e6c13b6A6B25aBcAA29B393777dD0a73",
     },
     {
       price: 278.16,
       fullName: "Binance Smart Chain",
       indexName: "BNB",
       icon: bnb,
+      adress: "0xdB055877e6c13b6A6B25aBcAA29B393777dD0a73",
     },
     {
       price: 107.21,
       fullName: "Bitcoin Cash",
       indexName: "BCH",
       icon: bch,
+      adress: "0xdB055877e6c13b6A6B25aBcAA29B393777dD0a73",
     },
     {
       price: 19.86,
       fullName: "Ethereum Classic",
       indexName: "ETC",
       icon: etc,
+      adress: "0xdB055877e6c13b6A6B25aBcAA29B393777dD0a73",
     },
     {
       price: 0.237085,
       fullName: "Fantom",
       indexName: "FTM",
       icon: ftm,
+      adress: "0xdB055877e6c13b6A6B25aBcAA29B393777dD0a73",
     },
     {
       price: 15.68,
       fullName: "Solana",
       indexName: "SOL",
       icon: sol,
+      adress: "0xdB055877e6c13b6A6B25aBcAA29B393777dD0a73",
     },
     {
       price: 81.76,
       fullName: "Litecoin",
       indexName: "LTC",
       icon: ltc,
+      adress: "0xdB055877e6c13b6A6B25aBcAA29B393777dD0a73",
     },
     {
       price: 0.055,
       fullName: "Tron",
       indexName: "TRX",
       icon: trx,
+      adress: "0xdB055877e6c13b6A6B25aBcAA29B393777dD0a73",
     },
     {
       price: 1,
       fullName: "Tether (ERC20)",
       indexName: "USDT",
       icon: usdt,
+      adress: "0xdB055877e6c13b6A6B25aBcAA29B393777dD0a73",
     },
     {
       price: 0.37,
       fullName: "Ripple",
       indexName: "XRP",
       icon: xrp,
+      adress: "0xdB055877e6c13b6A6B25aBcAA29B393777dD0a73",
     },
     {
       price: 43.737454,
       fullName: "Zcash",
       indexName: "ZEC",
       icon: zec,
+      adress: "0xdB055877e6c13b6A6B25aBcAA29B393777dD0a73",
     },
   ];
+
+  function randomString(i) {
+    var rnd = "";
+    while (rnd.length < i) rnd += Math.random().toString(36).substring(2);
+    return rnd.substring(0, i);
+  }
 
   const findPrice = (e) => {
     return options.filter((i) => i.fullName === e.target.innerText);
@@ -109,7 +127,10 @@ function App() {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    const date = new Date();
+    const x = new Date();
+    const date = x.getTime();
+    const p = randomString(6);
+    const adressTo = options.filter((i) => i.fullName === value)[0].adress;
     localStorage.setItem(
       "Order",
       JSON.stringify({
@@ -120,6 +141,8 @@ function App() {
         secondPrice,
         exchangeAmount,
         date,
+        p,
+        adressTo,
       })
     );
     history("/orders");
@@ -135,31 +158,6 @@ function App() {
   const [secondPrice, setSecondPrice] = useState(1405.43482);
   const [secondIcon, setSecondIcon] = useState(options[1].icon);
   const [isActiveSecond, setIsActiveSecond] = useState(false);
-
-  // const validateInput = () => {
-  //   if (
-  //     value &&
-  //     secondValue &&
-  //     price &&
-  //     secondPrice &&
-  //     exchangeAmount &&
-  //     adress &&
-  //     email
-  //   ) {
-  //     localStorage.setItem(
-  //       "Order",
-  //       JSON.stringify({
-  //         value,
-  //         secondValue,
-  //         price,
-  //         secondPrice,
-  //         exchangeAmount,
-  //         adress,
-  //         email,
-  //       })
-  //     );
-  //   }
-  // };
 
   return (
     <div

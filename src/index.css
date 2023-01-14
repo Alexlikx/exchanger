@@ -46,6 +46,10 @@
   );
 }
 
+.bg-blue-shadow {
+  box-shadow: 0px 0px 30px #5ce1e6;
+}
+
 .bg-black-gradient {
   background: linear-gradient(
     144.39deg,

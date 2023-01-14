@@ -13,13 +13,20 @@ import {
 } from "./components";
 import "./index.css";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
 
 const App = () => {
   const [Loading, setLoading] = useState(true);
 
+  const location = window.location.hash;
+
   setTimeout(() => {
     setLoading(false);
+    if (location != "") {
+      const elem = document.querySelector(location);
+      if (elem != null) {
+        elem.scrollIntoView();
+      }
+    }
   }, 700);
 
   return (

@@ -4,11 +4,10 @@ import { close, logo, menu } from "../assets";
 import { navLinks } from "../constants";
 import styles from "../style";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import basket from "./assets/basket.svg";
 
 const Navbar = () => {
-  const [active, setActive] = useState("Home");
   const [toggle, setToggle] = useState(false);
 
   return (
@@ -16,45 +15,31 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.8, delay: 0.3 }}
-      className={`${styles.boxWidth} flex py-6 justify-between items-center navbar m-auto px-5`}
+      className={`${styles.boxWidth} flex py-6 justify-between items-center navbar m-auto px-5 z-50 relative`}
     >
-      <img src={logo} alt="hoobank" className="w-[124px] h-[32px]" />
+      <img
+        src={logo}
+        alt="hoobank"
+        className="w-[124px] h-[32px] z-50 relative"
+      />
 
-      <ul className="list-none sm:flex hidden justify-end items-center flex-1 gap-[40px] text-white font-bold">
-        <li
-          className={`font-poppins font-normal cursor-pointer text-[16px] `}
-          onClick={() => setActive(nav.title)}
-        >
+      <ul className="list-none sm:flex hidden justify-end items-center flex-1 gap-[40px] text-white font-bold relative z-50">
+        <li className={`font-poppins font-normal cursor-pointer text-[16px] `}>
           <a href={`/`}>Home</a>
         </li>
-        <li
-          className={`font-poppins font-normal cursor-pointer text-[16px] `}
-          onClick={() => setActive(nav.title)}
-        >
+        <li className={`font-poppins font-normal cursor-pointer text-[16px] `}>
           <a href={`/#exchange`}>Exchange</a>
         </li>
-        <li
-          className={`font-poppins font-normal cursor-pointer text-[16px] `}
-          onClick={() => setActive(nav.title)}
-        >
+        <li className={`font-poppins font-normal cursor-pointer text-[16px] `}>
           <Link to={`/rules`}>Rules</Link>
         </li>
-        <li
-          className={`font-poppins font-normal cursor-pointer text-[16px] `}
-          onClick={() => setActive(nav.title)}
-        >
+        <li className={`font-poppins font-normal cursor-pointer text-[16px] `}>
           <a href={`/#product`}>Product</a>
         </li>
-        <li
-          className={`font-poppins font-normal cursor-pointer text-[16px] `}
-          onClick={() => setActive(nav.title)}
-        >
+        <li className={`font-poppins font-normal cursor-pointer text-[16px] `}>
           <a href={`/#clients`}>Clients</a>
         </li>
-        <li
-          className={`font-poppins font-normal cursor-pointer text-[16px]`}
-          onClick={() => setActive(nav.title)}
-        >
+        <li className={`font-poppins font-normal cursor-pointer text-[16px]`}>
           <Link to={`/orders`} className="flex">
             <img src={basket} alt="" className="mr-[8px]"></img>Basket
           </Link>
@@ -91,7 +76,7 @@ const Navbar = () => {
               className={`font-poppins font-medium cursor-pointer text-[16px] p-[10px]`}
               onClick={() => setToggle(!toggle)}
             >
-              <Link to={`/rules`}>Rules</Link>
+              <NavLink to={`/rules`}>Rules</NavLink>
             </li>
             <li
               className={`font-poppins font-medium cursor-pointer text-[16px] p-[10px]`}

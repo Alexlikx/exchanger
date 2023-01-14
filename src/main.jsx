@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <div className="bg-primary w-full overflow-hidden">
         <div className={`${styles.paddingX} ${styles.flexCenter} pt-8`}>
-          <div className={`w-full fixed z-10 backdrop-blur`}>
+          <div className={`w-full fixed z-50 backdrop-blur`}>
             <Navbar />
           </div>
         </div>
