@@ -24,7 +24,11 @@ const App = () => {
     if (location != "") {
       const elem = document.querySelector(location);
       if (elem != null) {
-        elem.scrollIntoView();
+        elem.scrollIntoView({
+          behavior: "auto",
+          block: "center",
+          inline: "center",
+        });
       }
     }
   }, 700);
