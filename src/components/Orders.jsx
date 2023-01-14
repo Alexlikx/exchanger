@@ -336,7 +336,7 @@ const Orders = () => {
                         <div className="btc-content">
                           <p className="opacity-80">You're sending</p>
                           <p className="mt-[10px] text-[18px] font-medium">
-                            1 BTC
+                            {Orders.Amount} {Orders.value}
                           </p>
                         </div>
                       </div>
